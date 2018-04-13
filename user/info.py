@@ -1,4 +1,6 @@
-def printUserDetails():
+from datetime import datetime, date, time, timedelta
+
+def printUserDetails(loggedUser):
 	tweets = loggedUser.statuses_count
 	account_created_date = loggedUser.created_at
 	delta = datetime.utcnow() - account_created_date

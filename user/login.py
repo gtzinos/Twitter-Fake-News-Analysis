@@ -16,7 +16,7 @@ def getUser(user_tweets, auth_api):
 
 	return loggedUser
 
-def login(consumer_key, consumer_secret, access_token, access_token_secret) -> API:
+def login(consumer_key, consumer_secret, access_token, access_token_secret):
 	auth = OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
 	return API(auth)
