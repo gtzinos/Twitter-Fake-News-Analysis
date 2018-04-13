@@ -1,37 +1,23 @@
-from tweepy import OAuthHandler
-from tweepy import API
+
 from tweepy import Cursor
 from datetime import datetime, date, time, timedelta
 from collections import Counter
 import sys
 from config import *
+from user import *
 
-auth = OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-auth_api = API(auth)
+auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
 
-selected_user = 'WSJ'
+loggedUser = getUser(user_tweets, auth_api)
 
-print('Getting data for user: '+selected_user)
-
-item = auth_api.get_user(selected_user)
-
-print("name: " + item.name)
-print("screen_name: " + item.screen_name)
-print("description: " + item.description)
-print("statuses_count: " + str(item.statuses_count))
-print("friends_count: " + str(item.friends_count))
-print("followers_count: " + str(item.followers_count))
-
-
-#stuff = auth_api.user_timeline(screen_name = item.screen_name, count = 100, include_rts = True)
+#stuff = auth_api.user_timeline(screen_name = loggedUser.screen_name, count = 100, include_rts = True)
 #print('More info:')
 # print(stuff)
 
 # Calculate the average number of tweets per day
 
-tweets = item.statuses_count
-account_created_date = item.created_at
+tweets = loggedUser.statuses_count
+account_created_date = loggedUser.created_at
 delta = datetime.utcnow() - account_created_date
 account_age_days = delta.days
 print("Account age (in days): " + str(account_age_days))
@@ -51,7 +37,7 @@ hashtags = []
 mentions = []
 tweet_count = 0
 end_date = datetime.utcnow() - timedelta(days=30)
-for status in Cursor(auth_api.user_timeline, id=selected_user).items():
+for status in Cursor(auth_api.user_timeline, id=user_tweets).items():
     tweet_count += 1
     if hasattr(status, "entities"):
         entities = status.entities
