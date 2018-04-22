@@ -7,13 +7,17 @@ def getUser(user_tweets, auth_api):
 
 	loggedUser = auth_api.get_user(user_tweets)
 
+	
 	print("name: " + loggedUser.name)
 	print("screen_name: " + loggedUser.screen_name)
 	print("description: " + loggedUser.description)
 	print("statuses_count: " + str(loggedUser.statuses_count))
+	print("-------------------------------------")
 	print("friends_count: " + str(loggedUser.friends_count))
+	print("-------------------------------------")
 	print("followers_count: " + str(loggedUser.followers_count))
-
+	print("-------------------------------------")
+	
 	return loggedUser
 
 def login(consumer_key, consumer_secret, access_token, access_token_secret):
