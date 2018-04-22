@@ -21,29 +21,18 @@ printUserDetails(loggedUser)
 # Url from a single tweet by WSJ
 # https://twitter.com/i/web/status/984269901333450753 <-- TWEET ID
 
+#get most mentioned hashtags and users
+# getHashtagsUsers(auth_api,user_tweets)
+print("----------------------------")
+# getStatus(auth_api)
 
-# Not working
-hashtags = []
-mentions = []
-tweet_count = 0
-end_date = datetime.utcnow() - timedelta(days=30)
-for status in Cursor(auth_api.user_timeline, id=user_tweets).items():
-    tweet_count += 1
-    if hasattr(status, "entities"):
-        entities = status.entities
-        if "hashtags" in entities:
-            for ent in entities["hashtags"]:
-                if ent is not None:
-                    if "text" in ent:
-                        hashtag = ent["text"]
-                        if hashtag is not None:
-                            hashtags.append(hashtag)
-        if "user_mentions" in entities:
-            for ent in entities["user_mentions"]:
-                if ent is not None:
-                    if "screen_name" in ent:
-                        name = ent["screen_name"]
-                        if name is not None:
-                            mentions.append(name)
-    if status.created_at < end_date:
-        break
+#Get Tweets
+
+# stuff = auth_api.user_timeline(screen_name = loggedUser.screen_name, count = 100, include_rts = True)
+# print('More info:')
+# print(stuff)
+
+getTweets(loggedUser, auth_api)
+# getTweetsByQuery(auth_api, "Tsipras", "en")
+# getTweets2(auth_api)
+
