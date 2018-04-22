@@ -19,4 +19,8 @@ def getUser(user_tweets, auth_api):
 def login(consumer_key, consumer_secret, access_token, access_token_secret):
 	auth = OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
-	return API(auth)
+	return API(auth,retry_count=5,
+                 retry_delay=10,
+                 retry_errors=set([401, 404, 500, 503]),
+                 wait_on_rate_limit=True,
+                 wait_on_rate_limit_notify=True)
