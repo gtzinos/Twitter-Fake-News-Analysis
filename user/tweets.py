@@ -42,6 +42,18 @@ def getTweets2(auth_api):
                            lang="en").items():
         print tweet.text
 
+def getRetweets(tweetId,auth_api):
+    # results = auth_api.retweets(id=tweetId, count=100)
+    # return results
+    p=1
+    while True:
+        results = auth_api.retweets(id=tweetId, page= p, count=100)
+        if results:
+            print(results['author'])
+            p=p+1
+        else:
+            break
+
 def getRetweeters(tweetId,auth_api):
-    results = auth_api.retweets(id=tweetId,page=1, count=2)
+    results = auth_api.retweeters(id=tweetId)
     return results
