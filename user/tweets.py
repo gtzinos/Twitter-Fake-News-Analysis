@@ -22,7 +22,7 @@ def getTweets (loggedUser,auth_api):
     print("How many retweets with top 3: " + str(tweetRetweetNoList[-3:]))
     tweetIdList = list(sortedTweetDict.keys())
     topThree = tweetIdList[-3:]
-    for tweetId in tweetIdList:
+    for tweetId in topThree:
         print("Printing retweeters for tweet: " + str(retweeterCounter))
         for retweet in auth_api.retweets(tweetId,count =100):
             try:
