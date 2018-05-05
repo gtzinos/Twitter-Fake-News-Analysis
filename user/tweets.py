@@ -5,41 +5,38 @@ import json
 import pprint
 from collections import OrderedDict
 
-
-FILE_WSJ = 'WSJ.json'
-retweetCounter = 0
-""" def getTweets (loggedUser,auth_api):
+def getTweets (loggedUser,auth_api):
+    
+    retweeterCounter = 1
     counter = 0
+    p=1
     tweetDict = {}
-    with open(FILE_WSJ,'w') as f_out:
-        for tweet in tweepy.Cursor(auth_api.user_timeline, screen_name = loggedUser.screen_name, include_rts = True).items():
-            # json.dump(tweet._json, f_out)
-            # f_out.write('\n')
-            # print("Tweet Text: ", tweet.text ,"retweeted #:" , tweet.retweet_count)
-            # print('\n')
-            tweetDict.update({tweet.id:tweet.retweet_count})
-            counter += 1
+    tweetList = list()
+    for tweet in tweepy.Cursor(auth_api.user_timeline, screen_name = loggedUser.screen_name, include_rts = True).items():
+        tweetDict.update({tweet.id:tweet.retweet_count})
+        counter += 1
+        
     print("Finished... with count: ",counter)
     sortedTweetDict = OrderedDict(sorted(tweetDict.items(), key=lambda x:x[1]))
     tweetRetweetNoList = list(sortedTweetDict.values())
-    print(tweetRetweetNoList[-3:])
+    print("How many retweets with top 3: " + str(tweetRetweetNoList[-3:]))
     tweetIdList = list(sortedTweetDict.keys())
-    print(tweetIdList[-3:])
-    return tweetIdList[-3:] """
-###TODO FIX 
-def getTweets(loggedUser,auth_api):
-    tweetList = list()
-    p=1
-    for tweet in auth_api.user_timeline(screen_name = loggedUser.screen_name):
-        print("TWEET:", tweet.text)
-        for reTweet in auth_api.retweets(tweet.id, count=100):
-            print("USER:", reTweet.user.screen_name)
-            tweetList.append(reTweet.user.screen_name)
-            p = p +1
+    topThree = tweetIdList[-3:]
+    for tweetId in tweetIdList:
+        print("Printing retweeters for tweet: " + str(retweeterCounter))
+        for retweet in auth_api.retweets(tweetId,count =100):
+            try:
+                print("USER:", retweet.user.screen_name)
+                tweetList.append(retweet.user.screen_name)
+                p = p +1
+            except tweepy.TweepError:
+                print("waiting...")
+                continue
+        retweeterCounter += 1
+    print("The top 3 tweets with ID: " + str(tweetIdList[-3:]))
     print(p)
-    return tweetList
-    
-
+    #return tweetList
+    return topThree
 
 def getTweetsByQuery(auth_api, query,languageCode):
     for tweet in tweepy.Cursor(auth_api.search, q=query, lang=languageCode).items():
