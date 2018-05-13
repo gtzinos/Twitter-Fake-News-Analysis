@@ -1,0 +1,21 @@
+.developer-card {
+  width: 200px;
+  float: left;
+  margin: 10px;
+}
+
+.header-image {
+  background-size: cover;
+}
+
+.mat-card-image {
+  height: 248px;
+}
+
+.mat-mini-fab {
+  margin-right: 10px
+}
+
+.developer-title{
+  min-width: 150px;
+}

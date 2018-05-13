@@ -1,0 +1,36 @@
+<div class="container" [class.is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="app-name">Twitter Analysis</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-accordion>
+
+        <mat-expansion-panel *ngFor="let parent of parentTitles">
+          <mat-expansion-panel-header [routerLink]="parent.url">
+            <mat-panel-title>
+              {{parent.title}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+
+            <div *ngFor="let child of parent.children">
+              <a mat-list-item [routerLink]="child.url">{{child.title}}</a>
+              <!--<mat-divider></mat-divider>-->
+            </div>
+
+          </mat-nav-list>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
