@@ -30,9 +30,8 @@ def getTweets (loggedUser,auth_api):
     print("---------------------------------------")
     while(i < 3):  
         print("Tweet no: "+ str(i) + "->" + "Printing retweeters for tweet: " +str(topThree[i]))
-        if(auth_api.retweets(topThree[i])!= None): 
-            
-            retweets = auth_api.retweets(topThree[i],page=p)
+        retweets = auth_api.retweets(topThree[i],page=p)
+        if(retweets != None): 
             for retweet in retweets:
                 if(retweet):
                     try:
