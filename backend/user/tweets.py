@@ -1,5 +1,4 @@
 import csv
-import tweepy
 from tweepy import *
 import json
 import pprint
@@ -49,8 +48,11 @@ def getTweets (loggedUser,auth_api):
                         else:
                             print("File not found...")
                             break
-                    except tweepy.TweepError:
                         print("waiting...")
+                        continue
+                    except TweepError as e:
+                        print("TweepError")
+                        print(str(e))
                         continue
                     except Exception as e:
                         print("Blame marinos")
