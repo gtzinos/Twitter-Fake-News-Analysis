@@ -3,6 +3,7 @@ import tweepy
 from tweepy import *
 import json
 import pprint
+import re
 from collections import OrderedDict
 
 
@@ -78,3 +79,12 @@ def PrintMembers(obj):
         #We don't want to show built in methods of the class
         if not attribute.startswith('__'):
             print(attribute)
+
+#Filter text characters to utf8 and remove spaces
+def filterText(text):
+    text = str(u''.join(text).encode('utf-8'))
+    text = text.replace("\n", "")
+    text = text.replace('"', "'")
+    text = re.sub(r"^[ ]+", "", text)
+    text = re.sub(r"[ ]+$", "", text)
+    return text
