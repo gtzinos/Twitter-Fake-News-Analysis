@@ -30,38 +30,44 @@ def getTweets (loggedUser,auth_api):
     print("---------------------------------------")
     while(i < 3):  
         print("Tweet no: "+ str(i) + "->" + "Printing retweeters for tweet: " +str(topThree[i]))
-        retweets = auth_api.retweets(topThree[i],page=p)
-        if(retweets != None): 
-            for retweet in retweets:
-                if(retweet):
-                    try:
-                        #print("USER:", retweet.user.screen_name)
-                        dataJSON.update({'tweetObject' : [{'originalTweet':{'originalTweetId':tweetIdList[i],'retweetCount':tweetRetweetNoList[i]},'retweet':{'retweetCreatedAt':str(retweet.created_at),
-                        'retweetId':retweet.id,'retweeterName':retweet.user.screen_name}}]})
-                        #tweetList.append(retweet.user.screen_name)
-                        retweeterCounter += 1
-                        if(loggedUser.screen_name == 'WSJ'):
-                            with open('WSJ.json','a') as file:
-                                file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
-                        elif(loggedUser.screen_name == 'TheHuzlers'):
-                            with open('Huzzlers.json','a') as file:
-                                file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
-                        else:
-                            print("File not found...")
-                            break
-                        print("waiting...")
-                        continue
-                    except TweepError as e:
-                        print("TweepError")
-                        print(str(e))
-                        continue
-                    except Exception as e:
-                        print("Blame marinos")
-                        print(str(e))
-                        continue
-            p = p + 1
-        else:
-            i = i + 1
+        try:
+            retweets = auth_api.retweets(topThree[i],page=p)
+            
+            if(retweets != None): 
+                for retweet in retweets:
+                    if(retweet):
+                        try:
+                            #print("USER:", retweet.user.screen_name)
+                            dataJSON.update({'tweetObject' : [{'originalTweet':{'originalTweetId':tweetIdList[i],'retweetCount':tweetRetweetNoList[i]},'retweet':{'retweetCreatedAt':str(retweet.created_at),
+                            'retweetId':retweet.id,'retweeterName':retweet.user.screen_name}}]})
+                            #tweetList.append(retweet.user.screen_name)
+                            retweeterCounter += 1
+                            if(loggedUser.screen_name == 'WSJ'):
+                                with open('WSJ.json','a') as file:
+                                    file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
+                            elif(loggedUser.screen_name == 'TheHuzlers'):
+                                with open('Huzzlers.json','a') as file:
+                                    file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
+                            else:
+                                print("File not found...")
+                                break
+                            print("waiting...")
+                            continue
+                        except TweepError as e:
+                            print("TweepError")
+                            print(str(e))
+                            continue
+                        except Exception as e:
+                            print("Blame marinos")
+                            print(str(e))
+                            continue
+                p = p + 1
+            else:
+                i = i + 1
+        except Exception as e:
+            print("Blame marinos")
+            print(str(e))
+            continue
     print("Retweeters found: "+str(retweeterCounter) + " in #" +str(p) +"pages")
 
 
