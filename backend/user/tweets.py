@@ -52,8 +52,9 @@ def getTweets (loggedUser,auth_api):
                     except tweepy.TweepError:
                         print("waiting...")
                         continue
-                    except e:
-                        print("trolarei")
+                    except Exception as e:
+                        print("Blame marinos")
+                        print(str(e))
                         continue
             p = p + 1
         else:
