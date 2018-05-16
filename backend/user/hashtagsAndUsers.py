@@ -43,7 +43,7 @@ def getHashtagsUsers(auth_api,user_tweets):
             print(item + "\t" + str(count))
 
         print
-        print "All done. Processed " + str(tweet_count) + " tweets."
+        print("All done. Processed " + str(tweet_count) + " tweets.")
         print
 
 def getStatus(auth_api):
