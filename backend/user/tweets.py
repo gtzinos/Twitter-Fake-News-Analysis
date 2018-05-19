@@ -1,5 +1,13 @@
+import tweepy
+from tweepy import *
+import csv
+import json
+import pprint
+import re
+from collections import OrderedDict
+
 def getTweetsWSJ (loggedUser,auth_api):
-    dataJSON = {}
+    dataWSJJSON = {}
     i = 0
     retweeterCounter = 0
     counter = 0
@@ -35,12 +43,12 @@ def getTweetsWSJ (loggedUser,auth_api):
                     if(retweet):
                         try:
                             #print("USER:", retweet.user.screen_name)
-                            dataJSON.update({'tweetObject' : [{'originalTweet':{'originalTweetId':tweetIdList[i],'retweetCount':tweetRetweetNoList[i],'originalTweeter':tweetersTop[i]},'retweet':{'retweetCreatedAt':str(retweet.created_at),
+                            dataWSJJSON.update({'tweetObject' : [{'originalTweet':{'originalTweetId':tweetIdList[i],'retweetCount':tweetRetweetNoList[i],'originalTweeter':tweetersTop[i]},'retweet':{'retweetCreatedAt':str(retweet.created_at),
                             'retweetId':retweet.id,'retweeterName':retweet.user.screen_name}}]})
                             #tweetList.append(retweet.user.screen_name)
                             retweeterCounter += 1
-                            with open('WSJ.json','a') as file:
-                                file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
+                            with open('WSJ.json','a') as file1:
+                                json.dump(dataWSJJSON, file1, sort_keys=True, indent=4,ensure_ascii=False)
                             print("waiting...")
                             continue
                         except TweepError as e:
@@ -55,13 +63,13 @@ def getTweetsWSJ (loggedUser,auth_api):
             else:
                 i = i + 1
         except Exception as e:
-            print("Blame marinos")
+            print("Exceptions")
             print(str(e))
             continue
     print("Retweeters found: "+str(retweeterCounter) + " in #" +str(p) +"pages")
 
 def getTweetsHuzlers(loggedUser,auth_api):
-    dataJSON = {}
+    dataHuzlersJSON = {}
     i = 0
     retweeterCounter = 0
     counter = 0
@@ -97,12 +105,12 @@ def getTweetsHuzlers(loggedUser,auth_api):
                     if(retweet):
                         try:
                             #print("USER:", retweet.user.screen_name)
-                            dataJSON.update({'tweetObject' : [{'originalTweet':{'originalTweetId':tweetIdList[i],'retweetCount':tweetRetweetNoList[i],'originalTweeter':tweetersTop[i]},'retweet':{'retweetCreatedAt':str(retweet.created_at),
+                            dataHuzlersJSON.update({'tweetObject' : [{'originalTweet':{'originalTweetId':tweetIdList[i],'retweetCount':tweetRetweetNoList[i],'originalTweeter':tweetersTop[i]},'retweet':{'retweetCreatedAt':str(retweet.created_at),
                             'retweetId':retweet.id,'retweeterName':retweet.user.screen_name}}]})
                             #tweetList.append(retweet.user.screen_name)
                             retweeterCounter += 1
-                            with open('Huzlers.json','a') as file:
-                                file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
+                            with open('Huzlers.json','a') as file2:
+                                json.dump(dataHuzlersJSON, file2, sort_keys=True, indent=4,ensure_ascii=False)
                             print("waiting...")
                             continue
                         except TweepError as e:
@@ -117,7 +125,25 @@ def getTweetsHuzlers(loggedUser,auth_api):
             else:
                 i = i + 1
         except Exception as e:
-            print("Blame marinos")
+            print("Exceptions")
             print(str(e))
             continue
     print("Retweeters found: "+str(retweeterCounter) + " in #" +str(p) +"pages")
+
+
+
+def PrintMembers(obj):
+    for attribute in dir(obj):
+        
+        #We don't want to show built in methods of the class
+        if not attribute.startswith('__'):
+            print(attribute)
+
+#Filter text characters to utf8 and remove spaces
+def filterText(text):
+    text = str(u''.join(text).encode('utf-8'))
+    text = text.replace("\n", "")
+    text = text.replace('"', "'")
+    text = re.sub(r"^[ ]+", "", text)
+    text = re.sub(r"[ ]+$", "", text)
+    return text
