@@ -1,6 +1,6 @@
-import csv
 import tweepy
 from tweepy import *
+import csv
 import json
 import pprint
 import re
@@ -14,9 +14,10 @@ def getTweets (loggedUser,auth_api):
     counter = 0
     p=0
     tweetDict = {}
+    tweeters = {}
 
-    print('Collectin tweets...')
     for tweet in tweepy.Cursor(auth_api.user_timeline, screen_name = loggedUser.screen_name, include_rts = True).items():
+        tweeters.update({tweet.id:tweet.user.id})
         tweetDict.update({tweet.id:tweet.retweet_count})
         counter += 1
         
@@ -24,15 +25,16 @@ def getTweets (loggedUser,auth_api):
     sortedTweetDict = OrderedDict(sorted(tweetDict.items(), key=lambda x:x[1]))
     temp = list(sortedTweetDict.values())
     tweetRetweetNoList = temp[-3:]
+    sortedTweetersDict = OrderedDict(sorted(tweeters.items(), key=lambda x:x[1]))
+    tempTweeters = list(sortedTweetersDict.values())
+    tweetersTop = tempTweeters[-3:]
     print("Retweet No of the top 3: " + str(temp[-3:]))
     temp = list(sortedTweetDict.keys())
     tweetIdList = temp[-3:]
     print("The top 3 tweets with ID: " + str(temp[-3:]))
     topThree = temp[-3:]
     print("---------------------------------------")
-    
-    print('Getting retweets for top 3 tweets of the user...')
-    while(i < 3):  
+    while(i < 1):  
         print("Tweet no: "+ str(i) + "->" + "Printing retweeters for tweet: " +str(topThree[i]))
         try:
             retweets = auth_api.retweets(topThree[i],page=p)
@@ -42,16 +44,17 @@ def getTweets (loggedUser,auth_api):
                     if(retweet):
                         try:
                             #print("USER:", retweet.user.screen_name)
-                            dataJSON.update({'tweetObject' : [{'originalTweet':{'originalTweetId':tweetIdList[i],'retweetCount':tweetRetweetNoList[i]},'retweet':{'retweetCreatedAt':str(retweet.created_at),
+                            dataJSON.update({'tweetObject' : [{'originalTweet':{'originalTweetId':tweetIdList[i],'retweetCount':tweetRetweetNoList[i],'originalTweeter':tweetersTop[i]},'retweet':{'retweetCreatedAt':str(retweet.created_at),
                             'retweetId':retweet.id,'retweeterName':retweet.user.screen_name}}]})
                             #tweetList.append(retweet.user.screen_name)
                             retweeterCounter += 1
                             if(loggedUser.screen_name == 'WSJ'):
-                                print('Add new entry to WSJ.json')
                                 with open('WSJ.json','a') as file:
                                     file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
-                            elif(loggedUser.screen_name == 'TheHuzlers'):
-                                print('Add new entry to Huzzlers.json')
+                            else:
+                                print("File not found...")
+                                break
+                            if(loggedUser.screen_name == 'TheHuzlers'):
                                 with open('Huzzlers.json','a') as file:
                                     file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
                             else:
