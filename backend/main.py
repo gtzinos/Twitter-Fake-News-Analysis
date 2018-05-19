@@ -2,23 +2,27 @@ from tweepy import *
 from datetime import datetime, date, time, timedelta
 from collections import Counter
 import sys
-from config import access_token, access_token_secret, consumer_key, consumer_secret, Huzlers_tweets, WSJ_tweets
+from config import *
 
 
 from user.login import *
-from user.tweets import *
+from user.WSJTweets import *
+from user.HuzlerTweets import *
 from user.info import *
 from user.hashtagsAndUsers import *
 from tweepy import parsers
 
 auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
 
+# WSJ_tweets = 'WSJ'
+Huzlers_tweets = 'TheHuzlers'
+
 # WSJUser = getUser(WSJ_tweets, auth_api)
 HuzlersUser = getUser(Huzlers_tweets,auth_api)
 # Calculate the average number of tweets per day
 # printUserDetails(WSJUser)
 print("------------------------------")
-printUserDetails(HuzlersUser)
+# printUserDetails(HuzlersUser)
 
 # Url from a single tweet by WSJ
 # https://twitter.com/i/web/status/984269901333450753 <-- TWEET ID
@@ -35,7 +39,7 @@ print("----------------------------")
 # print('More info:')
 # print(stuff)
 
-print("------------RETWEET INFO WSJ-------------")
+# print("------------RETWEET INFO WSJ-------------")
 # getTweetsWSJ(WSJUser, auth_api)
 print("------------RETWEET INFO TheHuzlers-------------")
 getTweetsHuzlers(HuzlersUser,auth_api)
