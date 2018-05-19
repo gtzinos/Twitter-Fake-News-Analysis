@@ -4,7 +4,6 @@ from collections import Counter
 import sys
 from config import *
 
-
 from user.login import *
 from user.WSJTweets import *
 from user.HuzlerTweets import *
@@ -12,16 +11,18 @@ from user.info import *
 from user.hashtagsAndUsers import *
 from tweepy import parsers
 
-auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
+from database.transactions import insertData
+
+#auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
 
 # WSJ_tweets = 'WSJ'
 Huzlers_tweets = 'TheHuzlers'
 
 # WSJUser = getUser(WSJ_tweets, auth_api)
-HuzlersUser = getUser(Huzlers_tweets,auth_api)
+#HuzlersUser = getUser(Huzlers_tweets,auth_api)
 # Calculate the average number of tweets per day
 # printUserDetails(WSJUser)
-print("------------------------------")
+#print("------------------------------")
 # printUserDetails(HuzlersUser)
 
 # Url from a single tweet by WSJ
@@ -30,7 +31,7 @@ print("------------------------------")
 
 #get most mentioned hashtags and users
 # getHashtagsUsers(auth_api,user_tweets)
-print("----------------------------")
+#print("----------------------------")
 # getStatus(auth_api)
 
 #Get Tweets
@@ -41,17 +42,17 @@ print("----------------------------")
 
 # print("------------RETWEET INFO WSJ-------------")
 # getTweetsWSJ(WSJUser, auth_api)
-print("------------RETWEET INFO TheHuzlers-------------")
-getTweetsHuzlers(HuzlersUser,auth_api)
+#print("------------RETWEET INFO TheHuzlers-------------")
+#getTweetsHuzlers(HuzlersUser,auth_api)
 
-print("------------THE END-------------")
+#print("------------THE END-------------")
 #tweetIdListWSJ = getTweets(WSJUser, auth_api)
-print("-------------------------")
+#print("-------------------------")
 #pprint.pprint(tweetIdListWSJ[0])
-print("-------------------------")
+#print("-------------------------")
 
 
-print("--------------------------------------")
+#print("--------------------------------------")
 
 # tweetIdListHuzler = getTweets(HuzlersUser, auth_api)
 # print("-------------------------")
@@ -62,3 +63,6 @@ print("--------------------------------------")
 
 # 
 # print(retweetsHuzler)
+
+
+insertData()
