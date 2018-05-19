@@ -15,6 +15,7 @@ def getTweets (loggedUser,auth_api):
     p=0
     tweetDict = {}
 
+    print('Collectin tweets...')
     for tweet in tweepy.Cursor(auth_api.user_timeline, screen_name = loggedUser.screen_name, include_rts = True).items():
         tweetDict.update({tweet.id:tweet.retweet_count})
         counter += 1
@@ -29,6 +30,8 @@ def getTweets (loggedUser,auth_api):
     print("The top 3 tweets with ID: " + str(temp[-3:]))
     topThree = temp[-3:]
     print("---------------------------------------")
+    
+    print('Getting retweets for top 3 tweets of the user...')
     while(i < 3):  
         print("Tweet no: "+ str(i) + "->" + "Printing retweeters for tweet: " +str(topThree[i]))
         try:
@@ -44,9 +47,11 @@ def getTweets (loggedUser,auth_api):
                             #tweetList.append(retweet.user.screen_name)
                             retweeterCounter += 1
                             if(loggedUser.screen_name == 'WSJ'):
+                                print('Add new entry to WSJ.json')
                                 with open('WSJ.json','a') as file:
                                     file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
                             elif(loggedUser.screen_name == 'TheHuzlers'):
+                                print('Add new entry to Huzzlers.json')
                                 with open('Huzzlers.json','a') as file:
                                     file.write(json.dumps(dataJSON,file,sort_keys=True,indent=4, separators=(',', ': ')))
                             else:
