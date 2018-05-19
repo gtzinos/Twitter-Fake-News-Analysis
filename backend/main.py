@@ -5,18 +5,18 @@ import sys
 from config import access_token, access_token_secret, consumer_key, consumer_secret, Huzlers_tweets, WSJ_tweets
 
 
-from user.login import login, getUser
-from user.tweets import getTweets, filterText, PrintMembers
-from user.info import printUserDetails
-from user.hashtagsAndUsers import getHashtagsUsers, getStatus, process_or_store
+from user.login import *
+from user.tweets import *
+from user.info import *
+from user.hashtagsAndUsers import *
 from tweepy import parsers
 
 auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
 
-WSJUser = getUser(WSJ_tweets, auth_api)
+# WSJUser = getUser(WSJ_tweets, auth_api)
 HuzlersUser = getUser(Huzlers_tweets,auth_api)
 # Calculate the average number of tweets per day
-printUserDetails(WSJUser)
+# printUserDetails(WSJUser)
 print("------------------------------")
 printUserDetails(HuzlersUser)
 
@@ -36,9 +36,9 @@ print("----------------------------")
 # print(stuff)
 
 print("------------RETWEET INFO WSJ-------------")
-getTweets(WSJUser, auth_api)
+# getTweetsWSJ(WSJUser, auth_api)
 print("------------RETWEET INFO TheHuzlers-------------")
-getTweets(HuzlersUser,auth_api)
+getTweetsHuzlers(HuzlersUser,auth_api)
 
 print("------------THE END-------------")
 #tweetIdListWSJ = getTweets(WSJUser, auth_api)
