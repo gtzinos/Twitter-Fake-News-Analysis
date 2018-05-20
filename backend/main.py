@@ -11,7 +11,7 @@ from user.info import *
 from user.hashtagsAndUsers import *
 from tweepy import parsers
 
-from database.transactions import insertData
+from database.transactions import insertData, showData
 
 #auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
 
@@ -65,4 +65,7 @@ Huzlers_tweets = 'TheHuzlers'
 # print(retweetsHuzler)
 
 
-insertData()
+#Run it only one time!
+#insertData()
+
+showData()
