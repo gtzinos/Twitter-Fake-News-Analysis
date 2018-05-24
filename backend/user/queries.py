@@ -15,7 +15,7 @@ import dateutil
 
 
 def getDates(mdb):
-    dateDict = (mdb['h_1'].distinct("tweetObject.retweet"))
+    dateDict = (mdb['w_3'].distinct("tweetObject.retweet"))
     return dateDict
 
 
@@ -29,7 +29,9 @@ def plotDates(mdb):
     del df['retweetCreatedAt']
     print(df)
     # print(df.groupby(df.index.to_period('D'), axis=0).sum())
-    df.resample('H', closed='right', label='right').sum().plot()
+    prePlot = df.resample(rule='1H', closed='left', label='left').sum()
+    plot= prePlot.plot(kind='line',title='Tweets Diffusion in time',grid=True)
+    plot.set(xlabel="Time", ylabel="Tweets")
     print(df)
     plt.show()
 
