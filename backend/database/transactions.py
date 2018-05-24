@@ -44,5 +44,8 @@ def showData():
     print('Total items in retweet_h collection: '+str(calHuz.count()))
     print('Total items in retweet_w collection: '+str(calWsj.count()))
 
-    for tweet in calHuz.find():
-        pp.pprint(tweet)
+    #for tweet in calHuz.find():
+     #   pp.pprint(tweet.retweeterName)
+
+    for tweet in calHuz.find({},):
+        print(tweet)

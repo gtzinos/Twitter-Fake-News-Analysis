@@ -1,4 +1,5 @@
-from tweepy import *
+import tweepy
+#from tweepy import *
 from datetime import datetime, date, time, timedelta
 from collections import Counter
 import sys
@@ -12,6 +13,8 @@ from user.hashtagsAndUsers import *
 from tweepy import parsers
 
 from database.transactions import insertData, showData
+from user.friendship import checkFriendship, readDataFromJSON
+import pprint as pp
 
 #auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
 
@@ -68,4 +71,7 @@ Huzlers_tweets = 'TheHuzlers'
 #Run it only one time!
 #insertData()
 
-showData()
+#showData()
+
+#checkFriendship(2302467404,'BrianZ_CR')
+readDataFromJSON('h_1.json')
