@@ -15,6 +15,7 @@ from tweepy import parsers
 from database.transactions import insertData, showData
 from user.friendship import checkFriendship, readDataFromJSON
 import pprint as pp
+import os
 
 #auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
 

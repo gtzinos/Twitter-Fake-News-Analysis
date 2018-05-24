@@ -12,6 +12,13 @@ api = tweepy.API(auth)
 
 current_work_directory = os.getcwd()
 
+
+file_path="./user/data/hop1/"
+
+hop1={}
+hop2={}
+hop3={}
+
 #returns true or false 
 def checkFriendship(originalTweeterId,target_user):
     status=api.show_friendship(source_id=originalTweeterId, target_screen_name=target_user)
@@ -45,15 +52,37 @@ def readDataFromJSON(file_name):
     print()
     print("Searching for direct users of "+str(originalTweeterId)+" id.")
 
-    followers=[]
-    nonFollowers=[]
+    followers={}
 
-    for user in range(0,len(retweeters)):
-        isFollower = checkFriendship(originalTweeterId,retweeters[user])
-        if(isFollower):
-            followers.append(retweeters[user])
-        else:
-            nonFollowers.append(retweeters[user])
+    nonFollowers={}
+
+
+    if(retweeters != None):
+        try:
+            for user in range(0,len(retweeters)):
+                try:
+                    isFollower = checkFriendship(originalTweeterId,retweeters[user])
+                    if(isFollower):
+                        followers.update({'user':retweeters[user]})
+
+                        with open(current_work_directory+"/user/data/hop_1/hop1_first_tweet.json",'a') as fileh:
+                            json.dump(followers, fileh, sort_keys=True, indent=4,ensure_ascii=False)
+                        fileh.close
+                    else:
+                        nonFollowers.update({'user':retweeters[user]})
+                        with open(current_work_directory+"/user/data/hop_1/hop1_left_users.json",'a') as file2:
+                            json.dump(nonFollowers, file2, sort_keys=True, indent=4,ensure_ascii=False)
+                        file2.close
+
+                except tweepy.TweepError as er:
+                    print("Tweepy Error: "+str(er))
+            
+        except Exception as ex:
+            print("Error: "+str(ex))
+    else:
+        print("There is no retweeter!")
+
+    
     print("Followers of original tweeter: "+str(len(followers)))
     print()
     for i in range(0,len(followers)):
