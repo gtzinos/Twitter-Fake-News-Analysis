@@ -22,14 +22,13 @@ printUserDetails(loggedInUser)
 
 #Insert user
 userModel = Users(users_table_name)
-userModel.insert_if_not_exists(db, loggedInUser)
+userModel.insert_if_not_exists(db, loggedInUser.id, loggedInUser._json)
 
 #Get all tweets from database
 allUserTweets = Tweets(tweets_table_name).find_all_by_owner_id(db, loggedInUser.id)
 
-
 #Get Tweets from owner
-getTweets(loggedInUser, auth_api)
+getTweets(loggedInUser, auth_api, db)
 
 # Url from a single tweet by WSJ
 # https://twitter.com/i/web/status/984269901333450753 <-- TWEET ID

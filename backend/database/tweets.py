@@ -8,3 +8,4 @@ class Tweets(DatabaseTable):
     def find_all_by_owner_id(self, db, owner_id):
         return db[self.name].find({'owner_id': owner_id})
 
+

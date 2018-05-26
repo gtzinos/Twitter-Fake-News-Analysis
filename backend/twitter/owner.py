@@ -6,8 +6,24 @@ import pprint
 import re
 from collections import OrderedDict
 
+from config.database import tweets_table_name
+from database.tweets import Tweets
 
-def getTweets(loggedUser, auth_api):
+
+def getTweets(loggedInUser, auth_api, db):
+    tweetsModel = Tweets(tweets_table_name)
+
+    tweets = tweepy.Cursor(auth_api.user_timeline, screen_name=loggedInUser.screen_name, include_rts=True)
+
+    # Get all tweets
+    for tweet in tweets.items():
+        tweetsModel.insert_if_not_exists(db, tweet.id, tweet._json)
+
+def getRetweetsOfTop3(loggedInUser, auth_api, db):
+
+    
+
+def getTweets2(loggedUser, auth_api):
     filePath = './user/w.json'
     dataWSJJSON = {}
     i = 0
@@ -20,7 +36,6 @@ def getTweets(loggedUser, auth_api):
         tweeters.update({tweet.id: tweet})
         tweetDict.update({tweet.id: tweet.retweet_count})
 
-    print("Finished... with count: ", counter)
     sortedTweetDict = OrderedDict(sorted(tweetDict.items(), key=lambda x: x[1]))
     temp = list(sortedTweetDict.values())
     tweetRetweetNoList = temp[-3:]
