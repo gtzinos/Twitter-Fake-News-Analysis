@@ -2,54 +2,34 @@ from config.database import *
 from config.credentials import *
 from database.connect import openConnection
 from database.users import Users
-from database.tweets import Tweets
-
 from twitter.login import *
 from user.info import *
 from twitter.owner import *
 
-from user.friendship import readDataFromJSON
-
-#Open connection
+# Open connection
 db = openConnection(db_hostname, db_name, db_port)
 
-#Login user
+# Login user
 auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
-#Owner login
+# Owner login
 loggedInUser = getUser(username, auth_api)
 # Calculate the average number of tweets per day
 printUserDetails(loggedInUser)
 
-#Insert user
+# Insert user
 userModel = Users(users_table_name)
 userModel.insert_if_not_exists(db, loggedInUser.id, loggedInUser._json)
 
-#Get all tweets from database
+# Get all tweets from database
 allUserTweets = Tweets(tweets_table_name).find_all_by_owner_id(db, loggedInUser.id)
 
-#Get Tweets from owner
-#getTweets(loggedInUser, auth_api, db)
+# Get Tweets from owner
+# getTweets(loggedInUser, auth_api, db)
 
-getRetweetsOfTop3(loggedInUser, auth_api, db)
+# Get Retweets for top 3 Tweets
+# getRetweetsOfTop3(loggedInUser, auth_api, db)
 
+# Get follower of retweets of 3 top tweets
+getFollowers(loggedInUser, auth_api, db)
 
-# print("--------------------------------------")
-
-# tweetIdListHuzler = getTweets(HuzlersUser, auth_api)
-# print("-------------------------")
-# pprint.pprint(tweetIdListHuzler[0])
-# print("-------------------------")
-# retweetsHuzler = getRetweets(tweetIdListHuzler[1],auth_api)
-# retweetsHuzler = getRetweeters(tweetIdListHuzler[1],auth_api)
-
-# 
-# print(retweetsHuzler)
-
-
-# Run it only one time!
-# insertData()
-
-# showData()
-
-# checkFriendship(2302467404,'BrianZ_CR')
-#readDataFromJSON('h_1.json')
+# Get followers for Retweets of top 3 Tweets
