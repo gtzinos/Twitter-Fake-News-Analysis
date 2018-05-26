@@ -47,20 +47,47 @@ def getRetweetsOfTop3(loggedInUser, auth_api, db):
 
     print("Done")
 
+
 def getFollowers(loggedInUser, auth_api, db):
     retweetsModel = Retweets(retweets_table_name)
     followersModel = Followers(followers_table_name)
+    hop_number = 1
 
+    # Check all retweeters with owner page
+
+    # get all not in followers collection
+    available_retweeters = retweetsModel.find_all_not_in_followers(db, followers_table_name, loggedInUser.id)
+
+    for available_retweeter in available_retweeters:
+        isFollower = auth_api.show_friendship(source_id=available_retweeter['user']['id'],
+                                              target_id=loggedInUser.id)[0].followed_by
+        if isFollower:
+            followersModel.insert_if_not_exists(db, {
+                "source": available_retweeter,
+                "target": {'user': {'id': loggedInUser.id}},
+                "hop_number": hop_number
+            })
+
+    # Check all available with last insert
     found_followers = 1
 
     while found_followers > 0:
-        #clear value
+        hop_number += 1
+        # clear value
         found_followers = 0
-        #get all not in followers collection
+        # get all not in followers collection
         available_retweeters = retweetsModel.find_all_not_in_followers(db, followers_table_name, loggedInUser.id)
-        last_inserted_followers = followersModel.get_last_inserted_hop(db)
+        last_inserted_followers = followersModel.get_last_inserted_hop(db, loggedInUser.id)
 
         for available_retweeter in available_retweeters:
             for last_inserted_follower in last_inserted_followers:
-                if True:
+
+                isFollower = api.show_friendship(source_id=available_retweeter['id'],
+                                                 target_screen_name=last_inserted_follower['id']).followedBy
+                if isFollower:
+                    followersModel.insert_if_not_exists(db, {
+                        "source": available_retweeter,
+                        "target": {'user': {'id': last_inserted_follower}},
+                        "hop_number": hop_number
+                    })
                     found_followers += 1

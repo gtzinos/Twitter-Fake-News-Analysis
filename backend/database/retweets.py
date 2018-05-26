@@ -7,7 +7,7 @@ class Retweets(DatabaseTable):
         DatabaseTable.__init__(self, name)
 
     def find_all_not_in_followers(self, db, followers_table_name, owner_id):
-        db[self.name].aggregate([
+        return db[self.name].aggregate([
             {
               "$match": {"retweeted_status.user.id": owner_id}
             },

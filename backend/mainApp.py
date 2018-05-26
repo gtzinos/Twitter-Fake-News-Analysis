@@ -7,7 +7,7 @@ from user.info import *
 from twitter.owner import *
 
 # Open connection
-db = openConnection(db_hostname, db_name, db_port)
+db = openConnection(db_hostname, db_name, db_port, db_username, db_password, db_authMechanism)
 
 # Login user
 auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
