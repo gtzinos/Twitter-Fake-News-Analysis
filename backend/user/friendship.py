@@ -1,8 +1,7 @@
 import tweepy
-import pprint as pp
-from tweepy import auth
-from config import *
-import sys
+
+from config.credentials import *
+from config.database import *
 import os
 import json
 

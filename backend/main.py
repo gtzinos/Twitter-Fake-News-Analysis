@@ -1,21 +1,6 @@
-import tweepy
 #from tweepy import *
-from datetime import datetime, date, time, timedelta
-from collections import Counter
-import sys
-from config import *
 
-from user.login import *
-from user.WSJTweets import *
-from user.HuzlerTweets import *
-from user.info import *
-from user.hashtagsAndUsers import *
-from tweepy import parsers
-
-from database.transactions import insertData, showData
-from user.friendship import checkFriendship, readDataFromJSON
-import pprint as pp
-import os
+from user.friendship import readDataFromJSON
 
 #auth_api = login(consumer_key, consumer_secret, access_token, access_token_secret)
 
