@@ -28,10 +28,9 @@ userModel.insert_if_not_exists(db, loggedInUser.id, loggedInUser._json)
 allUserTweets = Tweets(tweets_table_name).find_all_by_owner_id(db, loggedInUser.id)
 
 #Get Tweets from owner
-getTweets(loggedInUser, auth_api, db)
+#getTweets(loggedInUser, auth_api, db)
 
-# Url from a single tweet by WSJ
-# https://twitter.com/i/web/status/984269901333450753 <-- TWEET ID
+getRetweetsOfTop3(loggedInUser, auth_api, db)
 
 
 # print("--------------------------------------")
@@ -53,4 +52,4 @@ getTweets(loggedInUser, auth_api, db)
 # showData()
 
 # checkFriendship(2302467404,'BrianZ_CR')
-readDataFromJSON('h_1.json')
+#readDataFromJSON('h_1.json')

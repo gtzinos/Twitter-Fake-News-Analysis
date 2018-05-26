@@ -6,7 +6,8 @@ import pprint
 import re
 from collections import OrderedDict
 
-from config.database import tweets_table_name
+from config.database import tweets_table_name, retweets_table_name
+from database.retweets import Retweets
 from database.tweets import Tweets
 
 
@@ -19,9 +20,32 @@ def getTweets(loggedInUser, auth_api, db):
     for tweet in tweets.items():
         tweetsModel.insert_if_not_exists(db, tweet.id, tweet._json)
 
-def getRetweetsOfTop3(loggedInUser, auth_api, db):
 
-    
+def getRetweetsOfTop3(loggedInUser, auth_api, db):
+    tweetsModel = Tweets(tweets_table_name)
+    retweetsModel = Retweets(retweets_table_name)
+
+    top3Tweets = tweetsModel.find_top_3(db, loggedInUser.id)
+
+    for tweet in top3Tweets:
+        try:
+            page = 0
+
+            while True:
+                retweets = auth_api.retweets(tweet['id'], page=page, count=100)
+
+                if len(retweets) > 0:
+                    for retweet in retweets:
+                        retweetsModel.insert_if_not_exists(db, retweet.id, retweet._json)
+
+                    page += 1
+                else:
+                    break
+        except Exception as e:
+            print(e)
+
+    print("Done")
+
 
 def getTweets2(loggedUser, auth_api):
     filePath = './user/w.json'
