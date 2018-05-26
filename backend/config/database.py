@@ -1,3 +1,7 @@
+db_username = ""
+db_password = ""
+db_authMechanism = "SCRAM-SHA-1"
+
 db_hostname = "localhost"
 db_name = "twitter"
 db_port = 27017
