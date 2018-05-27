@@ -15,14 +15,14 @@ class Retweets(DatabaseTable):
                 "$lookup":
                     {
                         "from": followers_table_name,
-                        "let": {"followerId": "$id"},
+                        "let": {"userId": "$user.id"},
                         "pipeline": [
                             {"$match":
                                 {"$expr":
                                     {"$or":
                                         [
-                                            {"$eq": ["$source.retweeted_status.user.id", "$$followerId"]},
-                                            {"$eq": ["$target.retweeted_status.user.id", "$$followerId"]}
+                                            {"$eq": ["$source.user.id", "$$userId"]},
+                                            {"$eq": ["$target.user.id", "$$userId"]}
                                         ]
                                     }
                                 }
@@ -34,4 +34,7 @@ class Retweets(DatabaseTable):
             {
                 "$match": {"matched_followers": {"$eq": []}}
             }
-        ]).noCursorTimeout()
+        ])
+
+    def get_by_user_id(self,db, user_id, owner_id):
+        return db[self.name].find_one({'user.id': user_id, "retweeted_status.user.id": owner_id})
