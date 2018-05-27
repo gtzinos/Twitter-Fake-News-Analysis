@@ -4,10 +4,9 @@ from twitter.login import *
 from twitter.owner import *
 from config.database import *
 from config.credentials import *
+from twitter.info import printUserDetails
 
 # Open connection
-from user.info import printUserDetails
-
 db = openConnection(db_hostname, db_name, db_port, db_username, db_password, db_authMechanism)
 
 # Login user
