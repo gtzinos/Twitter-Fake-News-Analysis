@@ -30,7 +30,8 @@ userModel.insert_if_not_exists(db, loggedInUser.id, loggedInUser._json)
 # Get Retweets for top 3 Tweets
 #getRetweetsOfTop3(loggedInUser, auth_api, db)
 
+db.close()
 # Get follower of retweets of 3 top tweets
-getFollowers(loggedInUser, auth_api, db)
+getFollowers(loggedInUser, auth_api)
 
 # Get followers for Retweets of top 3 Tweets
