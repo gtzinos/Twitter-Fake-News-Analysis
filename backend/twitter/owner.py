@@ -69,12 +69,22 @@ def get_last_inserted_memory(last_inserted_cursor):
 
 
 def are_followers(auth_api, sourceUserId, targetUserId):
-    are_followers_results = auth_api.show_friendship(source_id=sourceUserId,
-                                                     target_id=targetUserId)
+    try:
+        print("Source: " + str(sourceUserId) + " Target: " + str(targetUserId))
 
-    final_decision = are_followers_results[0].followed_by or are_followers_results[0].following
+        are_followers_results = auth_api.show_friendship(source_id=sourceUserId,
+                                                        target_id=targetUserId)
 
-    return final_decision
+        final_decision = are_followers_results[0].followed_by or are_followers_results[0].following
+
+        print(final_decision)
+
+        return final_decision
+    except Exception as e:
+        print("touipai final decision")
+        print(e)
+        return False
+
 
 
 def getFollowers(loggedInUserTweepy, auth_api):
