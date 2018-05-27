@@ -11,3 +11,4 @@ class Tweets(DatabaseTable):
 
     def find_top_3(self, db, owner_id):
         return db[self.name].find({'user.id': owner_id}).sort([("retweet_count", -1)]).limit(3)
+    
