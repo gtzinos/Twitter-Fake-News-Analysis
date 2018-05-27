@@ -1,0 +1,9 @@
+chart-element {
+  margin: 24px;
+  display: inline-block;
+  width: 650px;
+}
+
+mat-form-field{
+  margin: 24px;
+}

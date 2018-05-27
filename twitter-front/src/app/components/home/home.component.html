@@ -1,1 +1,12 @@
-<chart-element *ngIf="users && users.length > 0" [graphConfiguration]="graphConfigurations" [data]="users"></chart-element>
+<mat-form-field>
+  <mat-select placeholder="Available Users" [(ngModel)]="selectedUser" (selectionChange)="updateUser()">
+    <mat-option *ngFor="let user of users" [value]="user.id">
+      {{ user.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div *ngIf="selectedUser">
+  <chart-element *ngIf="retweetsByDate && retweetsByDate.length > 0" [graphConfiguration]="byDateGraph" [data]="retweetsByDate"></chart-element>
+  <chart-element *ngIf="retweetsByHop && retweetsByHop.length > 0" [graphConfiguration]="byHopGraph" [data]="retweetsByHop"></chart-element>
+</div>

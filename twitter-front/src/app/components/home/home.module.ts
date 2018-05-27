@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { RouterModule } from '@angular/router';
+import { MatSelectModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
-    CommonModule,ChartElementModule,
+    CommonModule,ChartElementModule,FormsModule,MatSelectModule,
     RouterModule.forChild([{path: '', component: HomeComponent}])
   ],
   declarations: [HomeComponent],
