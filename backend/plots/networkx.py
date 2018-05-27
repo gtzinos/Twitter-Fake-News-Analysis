@@ -1,8 +1,7 @@
-from networkx import Graph
-
 from config.credentials import  *
 from twitter.login import *
 from twitter.owner import *
+import networkx as nx
 import matplotlib.pyplot as plt
 
 # Open connection
@@ -18,14 +17,12 @@ followersModel = Followers(followers_table_name)
 followers = followersModel.get_my_followers(db, loggedInUser.id)
 
 #Create Graph
-G = Graph()
+G = nx.Graph()
 
-edgesArray = []
 for follower in followers:
-    edgesArray.append((follower['source']['user']['id'], follower['target']['user']['id']))
+    G.add_edge(follower['source']['user']['id'], follower['target']['user']['id'], length = follower['hop_number'])
 
-G.add_edges_from(edgesArray)
-
-#Draw plot
-nx.draw_shell(G, nlist=[range(5, 10), range(5)], with_labels=True, font_weight='bold')
+pos = nx.spring_layout(G)
+nx.draw(G, pos)
+nx.draw_networkx_edge_labels(G, pos)
 plt.show()

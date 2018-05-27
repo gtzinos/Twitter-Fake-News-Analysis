@@ -40,4 +40,4 @@ class Followers(DatabaseTable):
                 print(e)
 
     def get_my_followers(self, db, owner_id):
-        return db[self.name].find({"from_owner.id": owner_id})
+        return db[self.name].find({"from_owner.id": owner_id}).sort({"hop_number": 1})
