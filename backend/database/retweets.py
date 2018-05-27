@@ -51,5 +51,8 @@ class Retweets(DatabaseTable):
                     "_id": {"$month": {"$dateFromString": {"dateString": "$created_at"}}},
                     "count": {"$sum": 1}
                 }
+            },
+            {
+                "$sort": {"_id": 1}
             }
         ])
