@@ -1,10 +1,8 @@
 import { GraphConfiguration } from './../../../shared/models/GraphConfiguration';
 import { GraphsService } from './../../../shared/services/graphs.service';
-import { ReviewPerYear } from './../../../shared/models/ReviewPerYear';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input, QueryList, ContentChildren, ViewChildren } from '@angular/core';
 import { Chart } from 'chart.js';
 import { environment } from '../../../../environments/environment';
-import { RestaurantByWifi } from '../../../shared/models/RestaurantByWifi';
 import { GraphDataConfiguration } from '../../../shared/models/GraphDataConfiguration';
 
 @Component({
