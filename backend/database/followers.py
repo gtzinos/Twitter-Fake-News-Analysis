@@ -46,7 +46,7 @@ class Followers(DatabaseTable):
 
         return db[self.name].aggregate([
             {
-                "$match": {"retweeted_status.user.id": owner_id}
+                "$match": {"from_owner.id": owner_id}
             },
             {
                 "$lookup":
@@ -72,4 +72,8 @@ class Followers(DatabaseTable):
                     "_id": "$hop_number",
                     "count": {"$sum": {"$size": "$matched_followers"}}
                 }
-            }])
+            },
+            {
+                    "$sort": {'_id': 1}
+            }
+        ])
