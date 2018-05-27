@@ -41,3 +41,35 @@ class Followers(DatabaseTable):
 
     def get_my_followers(self, db, owner_id):
         return db[self.name].find({"from_owner.id": owner_id}).sort([("hop_number", 1)])
+
+    def get_tweets_by_hop(self, db, owner_id, retweets_table_name):
+
+        return db[self.name].aggregate([
+            {
+                "$match": {"retweeted_status.user.id": owner_id}
+            },
+            {
+                "$lookup":
+                    {
+                        "from": retweets_table_name,
+                        "let": {"sourceUserId": "$source.user.id"},
+                        "pipeline": [
+                            {"$match":
+                             {"$expr":
+                              {"$or":
+                               [
+                                   {"$eq": ["$user.id", "$$sourceUserId"]}
+                               ]
+                               }
+                              }
+                             }
+                        ],
+                        "as": "matched_followers"
+                    }
+            },
+            {
+                "$group": {
+                    "_id": "$hop_number",
+                    "count": {"$sum": {"$size": "$matched_followers"}}
+                }
+            }])

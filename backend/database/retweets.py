@@ -9,7 +9,7 @@ class Retweets(DatabaseTable):
     def find_all_not_in_followers(self, db, followers_table_name, owner_id):
         return db[self.name].aggregate([
             {
-              "$match": {"retweeted_status.user.id": owner_id}
+                "$match": {"retweeted_status.user.id": owner_id}
             },
             {
                 "$lookup":
@@ -21,12 +21,14 @@ class Retweets(DatabaseTable):
                                 {"$expr":
                                     {"$or":
                                         [
-                                            {"$eq": ["$source.user.id", "$$userId"]},
-                                            {"$eq": ["$target.user.id", "$$userId"]}
+                                            {"$eq": [
+                                                "$source.user.id", "$$userId"]},
+                                            {"$eq": [
+                                                "$target.user.id", "$$userId"]}
                                         ]
-                                    }
-                                }
-                            }
+                                     }
+                                 }
+                             }
                         ],
                         "as": "matched_followers"
                     }
@@ -36,5 +38,5 @@ class Retweets(DatabaseTable):
             }
         ])
 
-    def get_by_user_id(self,db, user_id, owner_id):
+    def get_by_user_id(self, db, user_id, owner_id):
         return db[self.name].find_one({'user.id': user_id, "retweeted_status.user.id": owner_id})
