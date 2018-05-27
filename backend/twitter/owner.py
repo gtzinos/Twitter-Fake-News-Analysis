@@ -73,7 +73,7 @@ def are_followers(auth_api, sourceUserId, targetUserId):
 
     final_decision = are_followers_results[0].followed_by or are_followers_results[0].following
 
-    return True
+    return final_decision
 
 
 def getFollowers(loggedInUser, auth_api, db):
