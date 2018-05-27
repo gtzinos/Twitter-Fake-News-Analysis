@@ -111,39 +111,45 @@ def getFollowers(loggedInUser, auth_api):
     # Check all available with last insert
     found_followers = 1
 
-    while found_followers > 0:
-        hop_number += 1
-        # clear value
-        found_followers = 0
-        # get all not in followers collection
+    try:
+        while found_followers > 0:
+            hop_number += 1
+            # clear value
+            found_followers = 0
+            # get all not in followers collection
 
-        db = openConnection(db_hostname, db_name, db_port, db_username, db_password, db_authMechanism)
+        
 
-        available_retweeters = retweetsModel.find_all_not_in_followers(db, followers_table_name, loggedInUser.id)
-        available_retweeters_memory = get_retweeters_memory(available_retweeters)
+            db = openConnection(db_hostname, db_name, db_port, db_username, db_password, db_authMechanism)
 
-        last_inserted_followers = followersModel.get_last_inserted_hop(db, loggedInUser.id)
-        last_inserted_followers_memory = get_last_inserted_memory(last_inserted_followers)
+            available_retweeters = retweetsModel.find_all_not_in_followers(db, followers_table_name, loggedInUser.id)
+            available_retweeters_memory = get_retweeters_memory(available_retweeters)
 
-        db.close()
+            last_inserted_followers = followersModel.get_last_inserted_hop(db, loggedInUser.id)
+            last_inserted_followers_memory = get_last_inserted_memory(last_inserted_followers)
 
-        for available_retweeter_memory in available_retweeters_memory:
-            for last_inserted_follower_memory in last_inserted_followers_memory:
-                who_to_compare = "source"
-                if available_retweeter_memory['user']['id'] == last_inserted_follower_memory['source']['user']['id']:
-                    who_to_compare = "target"
+            db.close()
 
-                are_followers_result = are_followers(auth_api, available_retweeter_memory['user']['id'],
-                                                     last_inserted_follower_memory[who_to_compare]['user']['id'])
-                if are_followers_result:
-                    db = openConnection(db_hostname, db_name, db_port, db_username, db_password, db_authMechanism)
+            for available_retweeter_memory in available_retweeters_memory:
+                for last_inserted_follower_memory in last_inserted_followers_memory:
+                    who_to_compare = "source"
+                    if available_retweeter_memory['user']['id'] == last_inserted_follower_memory['source']['user']['id']:
+                        who_to_compare = "target"
 
-                    followersModel.insert_if_not_exists(db, {
-                        "source": available_retweeter_memory,
-                        "target": last_inserted_follower_memory[who_to_compare],
-                        "from_owner": loggedInUser._json,
-                        "hop_number": hop_number
-                    })
-                    found_followers += 1
+                    are_followers_result = are_followers(auth_api, available_retweeter_memory['user']['id'],
+                                                        last_inserted_follower_memory[who_to_compare]['user']['id'])
+                    if are_followers_result:
+                        db = openConnection(db_hostname, db_name, db_port, db_username, db_password, db_authMechanism)
 
-                    db.close()
+                        followersModel.insert_if_not_exists(db, {
+                            "source": available_retweeter_memory,
+                            "target": last_inserted_follower_memory[who_to_compare],
+                            "from_owner": loggedInUser._json,
+                            "hop_number": hop_number
+                        })
+                        found_followers += 1
+
+                        db.close()
+    except Exception as e:
+        print("ERROR!")
+        print(e)
