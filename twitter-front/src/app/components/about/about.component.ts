@@ -8,7 +8,19 @@ import { Component, OnInit } from '@angular/core';
 export class AboutComponent implements OnInit {
 
 
-  developers = [
+  developers = []
+  constructor() { }
+
+  ngOnInit() {
+    let randomDevs = [{
+      name: "Ilias Karatsin",
+      title: "Full Stack Developer",
+      photo: "https://scontent.fskg1-1.fna.fbcdn.net/v/t1.0-9/13226931_1233808183350275_6020287782455920427_n.jpg?_nc_cat=0&oh=78d74adeab14cb24b4af5997c6e7d9d6&oe=5B81C380",
+      description: "Hello...",
+      website: "",
+      social: "",
+      email: "mailto:karatsin@csd.auth.gr"
+    },
     {
       name: "Anastasios Theodosiou",
       title: "Full Stack Developer",
@@ -16,7 +28,7 @@ export class AboutComponent implements OnInit {
       description: "Hello...",
       website: "https://about.me/anastasios.theodosiou",
       social: "https://www.linkedin.com/in/anastasios-theodosiou",
-      email:"mailto:atheodos@csd.auth.gr",
+      email: "mailto:atheodos@csd.auth.gr"
     },
     {
       name: "Marinos Zagotsis",
@@ -24,7 +36,7 @@ export class AboutComponent implements OnInit {
       photo: "https://scontent.fskg1-1.fna.fbcdn.net/v/t1.0-9/13165870_10206152945047169_2926124721482332118_n.jpg?_nc_cat=0&oh=5fc8d7391a79a5699943be0ef1ee3812&oe=5B8C8D43",
       description: "Hello...",
       social: "https://gr.linkedin.com/in/marinoszagkotsis",
-      email:"mailto:zagkotsis@csd.auth.gr",
+      email: "mailto:zagkotsis@csd.auth.gr"
     },
     {
       name: "George Tzinos",
@@ -33,12 +45,12 @@ export class AboutComponent implements OnInit {
       description: "Hello...",
       website: "http://www.geotzinos.com",
       social: "https://www.linkedin.com/in/george-tzinos-8a6110101/",
-      email:"mailto:gtzinosv@csd.auth.gr"
-    }
-  ]
-  constructor() { }
+      email: "mailto:gtzinosv@csd.auth.gr"
+    }];
 
-  ngOnInit() {
+    for (var i = randomDevs.length - 1; i >= 0; i--) {
+      this.developers.push(randomDevs.splice(randomDevs.length * Math.random() | 0, 1)[0]);
+    }
   }
 
 }
