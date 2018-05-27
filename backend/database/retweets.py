@@ -40,3 +40,16 @@ class Retweets(DatabaseTable):
 
     def get_by_user_id(self, db, user_id, owner_id):
         return db[self.name].find_one({'user.id': user_id, "retweeted_status.user.id": owner_id})
+
+    def get_retweets_by_date(self, db, owner_id):
+        return db[self.name].aggregate([
+            {
+                "$match": {"retweeted_status.user.id": owner_id}
+            },
+            {
+                "$group": {
+                    "_id": {"$month": {"$dateFromString": {"dateString": "$created_at"}}},
+                    "count": {"$sum": 1}
+                }
+            }
+        ])
