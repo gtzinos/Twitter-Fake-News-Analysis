@@ -38,3 +38,6 @@ class Followers(DatabaseTable):
                 db[self.name].insert(newItem)
             except Exception as e:
                 print(e)
+
+    def get_my_followers(self, db, owner_id):
+        return db[self.name].find({"from_owner.id": owner_id})
