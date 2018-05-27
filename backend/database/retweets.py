@@ -34,4 +34,4 @@ class Retweets(DatabaseTable):
             {
                 "$match": {"matched_followers": {"$eq": []}}
             }
-        ])
+        ]).noCursorTimeout()

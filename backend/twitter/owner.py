@@ -1,10 +1,5 @@
 import tweepy
 from tweepy import *
-import csv
-import json
-import pprint
-import re
-from collections import OrderedDict
 
 from config.database import tweets_table_name, retweets_table_name, followers_table_name
 from database.followers import Followers
