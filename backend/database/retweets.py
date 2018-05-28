@@ -48,13 +48,7 @@ class Retweets(DatabaseTable):
             },
             {
                 "$group": {
-                    "_id": {
-                        "$concat": [
-                            {"$substr": [
-                                {"$month": {"$dateFromString": {"dateString": "$created_at"}}}, 0, 2]},
-                            "/",
-                            {"$substr": [{"$year": {"$dateFromString": {"dateString": "$created_at"}}}, 0, 4]}]
-                    },
+                    "_id": {"$dateToString": {"format": "%Y/%m/%d", "date": {"$dateFromString": {"dateString": "$created_at"}}}},
                     "count": {"$sum": 1}
                 }
             },
