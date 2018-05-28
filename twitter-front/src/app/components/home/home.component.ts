@@ -34,6 +34,10 @@ export class HomeComponent implements OnInit {
     this.retweetsByHop = [];
 
     this.http.post(environment.api + "/retweets-per-month", { 'userId': this.selectedUser }).subscribe((retweetsByDate: [RetweetsPerMonth]) => {
+      retweetsByDate.forEach(retweet => {
+        let splitArray = retweet.id.split("/");
+        retweet.id = splitArray[2] + "/" + splitArray[1] + "/" + splitArray[0];
+      })
       this.byDateGraph.push(new GraphConfiguration("Retweets By Date", "line", new GraphDataConfiguration("count")));
       this.retweetsByDate = retweetsByDate;
     })
