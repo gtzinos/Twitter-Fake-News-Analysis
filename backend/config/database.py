@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 db_username = ""
 db_password = ""
 db_authMechanism = "SCRAM-SHA-1"
