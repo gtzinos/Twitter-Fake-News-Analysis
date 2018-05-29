@@ -99,7 +99,7 @@ def getFollowers(loggedInUserTweepy, auth_api):
     # Check all retweeters with owner page
 
     # get all not in followers collection
-    available_retweeters = retweetsModel.find_all_not_in_followers(db, followers_table_name, loggedInUser['id'])
+    available_retweeters = retweetsModel.find_all_mine(db, loggedInUser['id'])
 
     available_retweeters_memory = get_retweeters_memory(available_retweeters)
 

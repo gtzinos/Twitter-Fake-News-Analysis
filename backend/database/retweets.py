@@ -7,6 +7,9 @@ class Retweets(DatabaseTable):
     def __init__(self, name):
         DatabaseTable.__init__(self, name)
 
+    def find_all_mine(self, db, owner_id):
+        return db[self.name].find_one({'user.id': user_id, "retweeted_status.user.id": owner_id})
+        
     def find_all_not_in_followers(self, db, followers_table_name, owner_id):
         return db[self.name].aggregate([
             {
