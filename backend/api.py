@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, json, Response, jsonify, request
 from config.database import *
 from bson.json_util import dumps

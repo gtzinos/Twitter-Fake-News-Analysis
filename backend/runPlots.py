@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from config.credentials import  *
 from twitter.login import *
 from twitter.owner import *
