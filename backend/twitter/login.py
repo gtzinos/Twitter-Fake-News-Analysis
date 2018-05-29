@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from tweepy import OAuthHandler
 from tweepy import API
 
