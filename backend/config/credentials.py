@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 consumer_key = "PmOtnHDeLol5iTFJfT0SzhngX"
 consumer_secret = "VPVLEZKDNg0pQn3FAoXepwUuR8cRM0vQ5B2xKJnZAvvDel67eD"
 access_token = "296863841-ySiLADayokktc0JFtVGcQbd7afwbbVR9B4HxcfTi"
