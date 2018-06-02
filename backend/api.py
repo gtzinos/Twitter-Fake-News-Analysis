@@ -11,10 +11,8 @@ from database.users import *
 from database.connect import *
 
 app = Flask(__name__)
-app.Debug = True
 
 CORS(app)
-
 
 @app.route("/users")
 def get_users():
@@ -63,3 +61,5 @@ def retweets_per_hop():
         output.append(retweet)
 
     return jsonify(output)
+
+app.run(host='0.0.0.0', port=5002, debug=False, use_reloader=False)
