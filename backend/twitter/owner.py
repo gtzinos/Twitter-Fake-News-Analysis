@@ -158,3 +158,6 @@ def getFollowers(loggedInUserTweepy, auth_api):
     except Exception as e:
         print("ERROR!")
         print(e)
+
+
+    print("Process completed successfully!")
