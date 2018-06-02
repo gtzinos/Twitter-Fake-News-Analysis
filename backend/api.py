@@ -25,7 +25,7 @@ def get_users():
     for user in users:
         del user['_id']
         output.append(user)
-    print(output)
+        
     return jsonify(output)
 
 
