@@ -8,7 +8,7 @@ class Retweets(DatabaseTable):
         DatabaseTable.__init__(self, name)
 
     def find_all_mine(self, db, owner_id):
-        return db[self.name].find({"retweeted_status.user.id": owner_id}).sort([("user.id", 1)]).limit(180)
+        return db[self.name].find({"retweeted_status.user.id": owner_id}).sort([("created_at", 1)]).limit(180)
 
     def find_all_not_in_followers(self, db, followers_table_name, owner_id):
         return db[self.name].aggregate([
@@ -16,7 +16,7 @@ class Retweets(DatabaseTable):
                 "$match": {"retweeted_status.user.id": owner_id}
             },
             {
-                "$sort": {"user.id": 1}
+                "$sort": {"created_at": 1}
             },
             {
                 "$limit": 180
