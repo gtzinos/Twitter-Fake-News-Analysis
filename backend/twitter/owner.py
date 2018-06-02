@@ -155,9 +155,10 @@ def getFollowers(loggedInUserTweepy, auth_api):
                             "hop_number": hop_number
                         })
                         found_followers += 1
+
+            print("Process completed successfully!")
+
     except Exception as e:
-        print("ERROR!")
+        print "Unexpected error:", sys.exc_info()[0]
         print(e)
 
-
-    print("Process completed successfully!")
