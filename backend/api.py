@@ -62,4 +62,4 @@ def retweets_per_hop():
 
     return jsonify(output)
 
-app.run(host='0.0.0.0', port=5002, debug=False, use_reloader=False)
+app.run(host='0.0.0.0', port=5002, debug=False, use_reloader=False, threaded=True)
