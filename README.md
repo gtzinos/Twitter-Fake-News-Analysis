@@ -1,2 +1,3 @@
-# Twitter-Data-Mining
-Data Mining using Twitter Stream
+# Twitter Fake News Analysis
+
+Demo: http://twitter.geotzinos.com
